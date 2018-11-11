@@ -1,5 +1,3 @@
-
-var routeCoord = [];
 var ROUTE = './trajectories/route.txt';
 var map;
 
@@ -8,36 +6,38 @@ function initMap() {
         center: {lat: -34.397, lng: 150.644},
         zoom: 8
     });
-    drawRoutePolyline();
+    drawRoutePolyline(ROUTE);
 }
-var routeCoord = [];
-var ROUTE = './trajectories/route.txt';
 
-function loadTrajectory(callback){
-    $.get(ROUTE,function(txt){
+function loadTrajectory(routeFile,callback){
+    var destRouteArr = [];
+    $.get(routeFile,function(txt){
         var posArr  = txt.split("\n");
         for (i = 0 ; i < posArr.length ; i++){
-            var tr = posArr[i].split(" ");
+            var tr = posArr[i].split(/\s+/);
             var lat = parseFloat(tr[0]);
             var lng = parseFloat(tr[1]);
-            var position = {lat, lng};
-            routeCoord.push(position);
+            var timestamp = parseInt(tr[2]);
+            if(!isNaN(lat) && !isNaN(lng) && !isNaN(timestamp)){ //lat,lng,timestamp are numbers
+                var position = {lat, lng};   
+                destRouteArr.push({position, timestamp});
+            }            
         }
-        routeCoord.pop();
-        callback(routeCoord);   
+        callback(destRouteArr);   
     });    
 }
-function drawRoutePolyline(){
-    loadTrajectory(function(coord){
-        var route = new google.maps.Polyline({
-            path: coord,
+function drawRoutePolyline(routeFile){
+    loadTrajectory(routeFile,function(routeArr){
+        let coordinates = routeArr.map(a => a.position);
+        var routePoly = new google.maps.Polyline({
+            path: coordinates,
             geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
             strokeWeight: 2
         });
-        route.setMap(map);
-        map.setCenter(coord[0]);
+        routePoly.setMap(map);
+        map.setCenter(coordinates[0]);
     });    
 }
 
