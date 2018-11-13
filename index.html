@@ -12,17 +12,32 @@
 </head>
 
 <body>     
-    <div id="map" class="map"></div>
+    <div id="container">
+        <div id="buttons">
+            <button id="followButton" onclick="getElementById('follow').style.width = '100%'; getElementById('leaderboard').style.width = '0%';">Follow</button>
+            <button id="leaderboardButton" onclick="getElementById('follow').style.width = '0%'; getElementById('leaderboard').style.width = '100%';">Leaderboard</button>
+            <script>
+                    document.getElementById("p2").style.width = "blue";
+            </script>
 
-    <div class="controlPanel">
-        <div class="infoBar"></div>
-        <div class="progressBar">
-            <button class="extendProgressBtn">&and;</button>
         </div>
+        <div id="follow">
+                <div id="map" class="map"></div>
+
+                <div class="controlPanel">
+                    <div class="infoBar"></div>
+                    <div class="progressBar">
+                        <button class="extendProgressBtn">&and;</button>
+                    </div>
+                </div>
+        </div>
+        <div id="leaderboard">
+
+        </div>
+            <script src="js/map.js"></script>
+            <script src="js/competitorsHandler.js"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2YXHpksnAc5JXUEF1M0yFxy9xqWr-XYw&callback=initMap"
+            async defer></script>
     </div>
-    <script src="js/map.js"></script>
-    <script src="js/competitorsHandler.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2YXHpksnAc5JXUEF1M0yFxy9xqWr-XYw&callback=initMap"
-    async defer></script>
 </body>
 </html>

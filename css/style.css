@@ -1,3 +1,40 @@
+#container {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#followButton{
+    width: 49.111%;
+    height: 10vw;
+    margin: 0;
+    padding: 0;
+}
+#leaderboardButton{
+    width: 49.111%;
+    height: 10vw;
+    margin: 0;
+    padding: 0;
+}
+
+#follow {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    float: left;
+    transition: all .5s linear;
+}
+
+#leaderboard {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background:blue;
+    float: right;
+    transition: all .5s linear;
+}
 
 #map {
     height: 100%;
