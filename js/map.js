@@ -1,6 +1,6 @@
 var ROUTE = './trajectories/route.txt';
 var map;
-
+var competitorsRoutes = [];
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
@@ -9,7 +9,7 @@ function initMap() {
     drawRoutePolyline(ROUTE);
 }
 
-function loadTrajectory(routeFile,callback){
+function loadTrajectory(routeFile,compNumber,callback){
     var destRouteArr = [];
     $.get(routeFile,function(txt){
         var posArr  = txt.split("\n");
@@ -17,17 +17,18 @@ function loadTrajectory(routeFile,callback){
             var tr = posArr[i].split(/\s+/);
             var lat = parseFloat(tr[0]);
             var lng = parseFloat(tr[1]);
-            var timestamp = parseInt(tr[2]);
+            var timestamp = parseInt(tr[2]);    
             if(!isNaN(lat) && !isNaN(lng) && !isNaN(timestamp)){ //lat,lng,timestamp are numbers
                 var position = {lat, lng};   
                 destRouteArr.push({position, timestamp});
             }            
         }
-        callback(destRouteArr);   
+        
+        callback(destRouteArr,compNumber);   
     });    
 }
 function drawRoutePolyline(routeFile){
-    loadTrajectory(routeFile,function(routeArr){
+    loadTrajectory(routeFile,0,function(routeArr){
         let coordinates = routeArr.map(a => a.position);
         var routePoly = new google.maps.Polyline({
             path: coordinates,
