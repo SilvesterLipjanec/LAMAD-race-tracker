@@ -139,7 +139,7 @@ html, body {
     float: right;
 }
 
-.compatitor {
+.competitor {
     display: grid;
           grid-template-areas:
             'photo place  name'

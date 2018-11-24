@@ -8,6 +8,7 @@ function initMap() {
         zoom: 12
     });
     drawRoutePolyline(ROUTE);
+    initLeaderboard();
 }
 
 function loadTrajectory(routeFile,compNumber,callback){

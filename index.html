@@ -37,7 +37,7 @@
                                     <div id="infoBar">
                                         <table>
                                             <tr>
-                                                <td><p class="caption">duration</p><p class="info">00:45:21</p></td>
+                                                <td><p class="caption">duration</p><p id="time" class="info">00:00:00</p></td>
                                                 <td><p class="caption"><img id="flag" src="/images/icons/flag.png"></td>
                                                 <td><p class="caption">distance</p><p class="info">4,5 km</p></td>
                                                 <td><p class="caption">finish</p><p class="info">500m</p></td>
@@ -51,14 +51,13 @@
                         </div>
                         </td>
                         <td>
-
                             <div id="leaderboard">
-                                <div class="compatitor">
+                                <div class="competitor">
                                     <img class="photo" src="/images/avatars/avatar_1.png">
                                     <div class="place">1</div>
                                     <div class="name">Teszt Elek</div>
                                     <div class="stat">Speed: 10,2 km/h | Distance: 5,2 km | Diff: 46 s</div>
-                                </div>
+                                </div>                                
                             </div>
                         </td>
                     </tr>
@@ -69,6 +68,7 @@
 
     </div>
             <script src="js/map.js"></script>
+            <script src="js/statsHandler.js"></script>
             <script src="js/simulationHandler.js"></script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2YXHpksnAc5JXUEF1M0yFxy9xqWr-XYw&callback=initMap"
             async defer></script>
