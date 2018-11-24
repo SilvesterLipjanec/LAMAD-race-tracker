@@ -5,32 +5,47 @@ const AVATAR_DIR = './images/avatars/';
 const AVATAR_IMG_NAME = 'avatar_';
 const PNG = '.png';
 const NUM_COMPETITORS = 2;
+const MARKER_SIZE = 20;
 var competitorsRoutes = [];
 var time = 0;
 var simulationPaused = false;
 var tr_loaded_inverse_cnt = NUM_COMPETITORS;
 
-
+function getCompetitorInfo(compNumber){
+    return "Firstname"+compNumber+" Secondname"+compNumber;
+}
 function initMarker(compNumber){
     var iconUrl = COMP_ICON_DIR+'c'+compNumber+'.png';
     var icon={
         url: iconUrl,
-        size:new google.maps.Size(20,20),
-        scaledSize:new google.maps.Size(20,20),
+        size:new google.maps.Size(MARKER_SIZE,MARKER_SIZE),
+        scaledSize:new google.maps.Size(MARKER_SIZE,MARKER_SIZE),
         origin:new google.maps.Point(0,0),
-        anchor:new google.maps.Point(10,10)
+        anchor:new google.maps.Point(MARKER_SIZE/2,MARKER_SIZE/2)
     }
     competitorsRoutes[compNumber].marker = new google.maps.Marker({
         position: competitorsRoutes[compNumber][0].position, 
         map: map,
         icon: icon
     });
+    var competitorInfo = getCompetitorInfo(compNumber);
+    var infowindow = new google.maps.InfoWindow({
+        content: competitorInfo
+      });
+    competitorsRoutes[compNumber].marker.addListener('click', function() {
+        infowindow.open(map, competitorsRoutes[compNumber].marker);
+      });
+        
 
 }
 function getActualPosition(compNumber,time){
     var posInTime = $.grep(competitorsRoutes[compNumber], function(posInTime){
         return posInTime.timestamp === time})[0];
     return posInTime;
+}
+function getActualPositionId(compNumber,time){
+    index = competitorsRoutes[compNumber].findIndex(x => x.timestamp==time);
+    return index;
 }
 function updateMarker(compNumber,time){
     var posInTime = getActualPosition(compNumber,time);
@@ -140,6 +155,10 @@ function startTime(time,timeout){
     $("#time").text(h + ":" + m + ":" + s);
     return time; 
 }
+function stopTime(){
+    time = 0; 
+    $("#time").text("00:00:00");
+}
 function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
@@ -149,7 +168,7 @@ function simulateRacing(timeout,speed){
     if(simulationPaused == false){
         var simulationSpeed = timeout / speed; 
         var pointUpdated = updateCompetitorMarkers(time);
-        if(pointUpdated){
+        if(pointUpdated && time != 0){
             var positionArr = getCompetitorsOrder(time);
             updateLeaderboard(positionArr,time);    
         }         
@@ -191,10 +210,12 @@ function pauseSimulation(){
 
 function stopSimulation(){
     simulationPaused = true;
-    time = 0;
+    stopTime();
+    initLeaderboard();
     if(competitorsRoutes){
         for(i = 0 ; i < competitorsRoutes.length ; i++){
-            competitorsRoutes[i].marker.setMap(null);            
+            competitorsRoutes[i].marker.setMap(null);
+            competitorsRoutes[i].projectionLine.setMap(null);
         }
     }
 }
