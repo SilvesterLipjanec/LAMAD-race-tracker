@@ -92,3 +92,18 @@ function stopSimulation(){
     }
 }
  
+function loadAllTrajectories2(callback){
+    for(i = 1 ; i < NUM_COMPETITORS ; i++){
+        //initialize markers
+        var txtFileName =  TRAJECTORIES_DIR+'route_'+i+'.txt';
+        var trajectoryOfEveryone = new Array();
+        $.get(txtFileName, function(data){
+            var lines = data.split('\n');
+            for ( j = 0; j < lines.length; j++) {
+                trajectoryOfEveryone.push(lines[i].split(" "));
+                
+            }
+            console.log(trajectoryOfEveryone);
+        });
+    }
+}
