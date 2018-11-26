@@ -9,10 +9,12 @@ const MARKER_SIZE = 20;
 var competitorsRoutes = [];
 var time = 0;
 var simulationPaused = false;
+var trajectoriesLoaded = false;
 var tr_loaded_inverse_cnt = NUM_COMPETITORS;
 
 function getCompetitorInfo(compNumber){
-    return "Firstname"+compNumber+" Secondname"+compNumber;
+    return competitorsRoutes[compNumber].info;
+    //return "Firstname"+compNumber+" Secondname"+compNumber;
 }
 function initMarker(compNumber){
     var iconUrl = COMP_ICON_DIR+'c'+compNumber+'.png';
@@ -182,10 +184,12 @@ function loadAllTrajectories(callback){
     for(i = 0 ; i < NUM_COMPETITORS ; i++){
         //initialize markers
         var txtFileName =  TRAJECTORIES_DIR+'rt'+i+'.txt';
-        loadTrajectory(txtFileName,i,function(routeArr,compNumber){
+        loadTrajectory(txtFileName,i,function(routeArr,compNumber,info){
             competitorsRoutes[compNumber] = routeArr;
+            competitorsRoutes[compNumber].info = info;
             tr_loaded_inverse_cnt--; //decrease variable after trajectory is loaded 
             if(tr_loaded_inverse_cnt == 0){ //all trajectories are loaded
+                trajectoriesLoaded = true;
                 callback();
             }
         });
@@ -195,14 +199,20 @@ function playSimulation(){
     simulationPaused = false;
     var timeout = 1000;
     var speed = 10;
-    if(competitorsRoutes.length == 0){
-        loadAllTrajectories(function(){
-            simulateRacing(timeout, speed);
-        });
+    // if(competitorsRoutes.length == 0){
+    //     loadAllTrajectories(function(){
+    //         simulateRacing(timeout, speed);
+    //     });
+    // }
+    // else{
+    //     simulateRacing(timeout, speed);
+    // }  
+    if(trajectoriesLoaded){
+        simulateRacing(timeout,speed);
     }
     else{
-        simulateRacing(timeout, speed);
-    }    
+        alert('Trajectories still not loaded!');
+    }  
 }
 function pauseSimulation(){
     simulationPaused = true;

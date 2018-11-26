@@ -32,7 +32,7 @@ function updateLeaderboard(positionArr,time){
     for(var pos = 1 ; pos <= NUM_COMPETITORS ; pos++){        
         var compId  = positionArr[pos]; 
         var img_src = AVATAR_DIR+AVATAR_IMG_NAME+pos+PNG;
-        var name = "Firstname"+compId+" Secondname"+compId;
+        var name = getCompetitorInfo(compId);
         var speed = getActualSpeed(compId, time);
         speed = speed.toFixed(1);
         var distance = getActualPassedDistance(compId, time) / 1000; //km;

@@ -7,15 +7,21 @@ function initMap() {
         center: {lat: -34.397, lng: 150.644},
         zoom: 12
     });
+    if(competitorsRoutes.length == 0){
+        loadAllTrajectories(function(){
+            initLeaderboard();
+        });
+    }
     drawRoutePolyline(ROUTE);
-    initLeaderboard();
+    
 }
 
 function loadTrajectory(routeFile,compNumber,callback){
     var routeArr = [];
     $.get(routeFile,function(txt){
         var posArr  = txt.split("\n");
-        for (i = 0 ; i < posArr.length ; i++){
+        var info = posArr[0];
+        for (i = 1 ; i < posArr.length ; i++){
             var tr = posArr[i].split(/\s+/);
             var lat = parseFloat(tr[0]);
             var lng = parseFloat(tr[1]);
@@ -29,7 +35,7 @@ function loadTrajectory(routeFile,compNumber,callback){
                 routeArr.push({position, timestamp, distFromStart});            
             }            
         }        
-        callback(routeArr,compNumber);   
+        callback(routeArr,compNumber,info);   
     });    
 }
 function drawRoutePolyline(routeFile){
