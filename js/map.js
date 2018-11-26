@@ -1,4 +1,8 @@
 var ROUTE = './trajectories/route.txt';
+var START_ICON = './images/icons/start.png';
+var FINISH_ICON = './images/icons/finish.png';
+var START_FINISH_ICON_WIDTH = 50;
+var START_FINISH_ICON_HEIGHT = 20;
 var map;
 var routePoly;
 var g_routeArray = [];
@@ -51,7 +55,33 @@ function drawRoutePolyline(routeFile){
         });
         routePoly.setMap(map);
         map.setCenter(coordinates[0]);
-    });    
+
+        var start_icon={
+            url: START_ICON,
+            size:new google.maps.Size(START_FINISH_ICON_WIDTH,START_FINISH_ICON_HEIGHT),
+            scaledSize:new google.maps.Size(START_FINISH_ICON_WIDTH,START_FINISH_ICON_HEIGHT),
+            origin:new google.maps.Point(0,0),
+            anchor:new google.maps.Point(START_FINISH_ICON_WIDTH/2,START_FINISH_ICON_HEIGHT/2)
+        }
+        var finish_icon={
+            url: FINISH_ICON,
+            size:new google.maps.Size(START_FINISH_ICON_WIDTH,START_FINISH_ICON_HEIGHT),
+            scaledSize:new google.maps.Size(START_FINISH_ICON_WIDTH,START_FINISH_ICON_HEIGHT),
+            origin:new google.maps.Point(0,0),
+            anchor:new google.maps.Point(START_FINISH_ICON_WIDTH/2,START_FINISH_ICON_HEIGHT/2)
+        }
+        var start_marker = new google.maps.Marker({
+            position: coordinates[0], 
+            map: map,
+            icon: start_icon
+        }); 
+        var finish_marker = new google.maps.Marker({
+            position: coordinates[coordinates.length-1], 
+            map: map,
+            icon: finish_icon
+        }); 
+    }); 
+      
 }
 function getDistanceFromStart(newPoint, trajectory){
     var lastPoint = trajectory[trajectory.length-1];
