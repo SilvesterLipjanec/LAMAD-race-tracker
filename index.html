@@ -8,6 +8,7 @@
     <link type="text/css" rel="stylesheet" href="./css/style.css">
     <!--JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 </head>
 
@@ -44,10 +45,24 @@
                                             </tr>
                                         </table>
                                     </div>
-                                    <!--<div id="progressBar">
-                                        <button id="extendProgressBtn">&and;</button>
+                                    <div id="progressBar">
+                                            <button id="extendProgressBtn" onclick="ShowProgressBar()">&and;</button>
+                                            <table>
+                                                <tr>    
+                                                    <td><i class="material-icons btnFontSize">fast_rewind</i></td>
+                                                    <td><i class="material-icons btnFontSize">play_circle_outline</i></td>
+                                                    <td><i class="material-icons btnFontSize">fast_forward</i></td>
+                                                    <td><i class="material-icons btnFontSize">stop</i></td>
+                                                    <td><i class="calibri btnFontSize">0x</i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5"><progress value="22" max="100"></progress></td>
+                                                </tr>
+                                            </table>
+                                            
+                                            
+                                        </div>
                                     </div>
-                                </div>-->
                         </div>
                         </td>
                         <td>
@@ -70,6 +85,10 @@
             <script src="js/map.js"></script>
             <script src="js/statsHandler.js"></script>
             <script src="js/simulationHandler.js"></script>
+            <script src="js/visual.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2YXHpksnAc5JXUEF1M0yFxy9xqWr-XYw&callback=initMap"
             async defer></script>
     </div>
