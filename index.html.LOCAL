@@ -37,27 +37,59 @@
                                     <div id="infoBar">
                                         <table>
                                             <tr>
-                                                <td><p class="caption">duration</p><p id="time" class="info">00:00:00</p></td>
+                                                <td><p class="caption">duration</p><p class="info">00:45:21</p></td>
                                                 <td><p class="caption"><img id="flag" src="/images/icons/flag.png"></td>
                                                 <td><p class="caption">distance</p><p class="info">4,5 km</p></td>
                                                 <td><p class="caption">finish</p><p class="info">500m</p></td>
                                             </tr>
                                         </table>
                                     </div>
-                                    <!--<div id="progressBar">
-                                        <button id="extendProgressBtn">&and;</button>
+                                    <div id="progressBar">
+                                        <button id="extendProgressBtn" onclick="
+                                        if  (getElementById('progressBar').style.top = '0')
+                                        {
+                                            getElementById('progressBar').style.top = '-15vmin';
+                                        } else {
+                                            getElementById('progressBar').style.top = '0';
+                                        }
+                                        ">&and;</button>
                                     </div>
-                                </div>-->
+                                </div>
                         </div>
                         </td>
                         <td>
+
                             <div id="leaderboard">
-                                <div class="competitor">
+                                <div class="compatitorW">
                                     <img class="photo" src="/images/avatars/avatar_1.png">
                                     <div class="place">1</div>
                                     <div class="name">Teszt Elek</div>
                                     <div class="stat">Speed: 10,2 km/h | Distance: 5,2 km | Diff: 46 s</div>
-                                </div>                                
+                                </div>
+                                <div class="compatitor">
+                                    <img class="photo" src="/images/avatars/avatar_2.png">
+                                    <div class="place">2</div>
+                                    <div class="name">Teszt Elek</div>
+                                    <div class="stat">Speed: 10,2 km/h | Distance: 5,2 km | Diff: 46 s</div>
+                                </div>
+                                <div class="compatitorW">
+                                    <img class="photo" src="/images/avatars/avatar_3.png">
+                                    <div class="place">3</div>
+                                    <div class="name">Teszt Elek</div>
+                                    <div class="stat">Speed: 10,2 km/h | Distance: 5,2 km | Diff: 46 s</div>
+                                </div>
+                                <div class="compatitor">
+                                    <img class="photo" src="/images/avatars/avatar_4.png">
+                                    <div class="place">4</div>
+                                    <div class="name">Teszt Elek</div>
+                                    <div class="stat">Speed: 10,2 km/h | Distance: 5,2 km | Diff: 46 s</div>
+                                </div>
+                                <div class="compatitorW">
+                                    <img class="photo" src="/images/avatars/avatar_5.png">
+                                    <div class="place">5</div>
+                                    <div class="name">Teszt Elek</div>
+                                    <div class="stat">Speed: 10,2 km/h | Distance: 5,2 km | Diff: 46 s</div>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -68,8 +100,7 @@
 
     </div>
             <script src="js/map.js"></script>
-            <script src="js/statsHandler.js"></script>
-            <script src="js/simulationHandler.js"></script>
+            <script src="js/competitorsHandler.js"></script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2YXHpksnAc5JXUEF1M0yFxy9xqWr-XYw&callback=initMap"
             async defer></script>
     </div>

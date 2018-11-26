@@ -148,7 +148,7 @@ html, body {
     overflow-y: scroll;
 }
 
-.compatitor {
+.competitor {
     display: grid;
           grid-template-areas:
             'photo place  name'
