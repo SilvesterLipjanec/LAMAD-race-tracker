@@ -4,10 +4,11 @@ const COMP_ICON_DIR = './images/competitors/';
 const AVATAR_DIR = './images/avatars/';
 const AVATAR_IMG_NAME = 'avatar_';
 const PNG = '.png';
-const NUM_COMPETITORS = 2;
+const NUM_COMPETITORS = 10;
 const MARKER_SIZE = 20;
 var competitorsRoutes = [];
 var time = 0;
+var simulationSpeed = 1;
 var simulationPaused = false;   
 var trajectoriesLoaded = false;
 var tr_loaded_inverse_cnt = NUM_COMPETITORS;
@@ -166,9 +167,9 @@ function checkTime(i) {
     return i;
 }
 
-function simulateRacing(timeout,speed){
+function simulateRacing(timeout){
     if(simulationPaused == false){
-        var simulationSpeed = timeout / speed; 
+        var speed = timeout / simulationSpeed; 
         var pointUpdated = updateCompetitorMarkers(time);
         if(pointUpdated && time != 0){
             var positionArr = getCompetitorsOrder(time);
@@ -176,8 +177,8 @@ function simulateRacing(timeout,speed){
         }         
         time = startTime(time,timeout);   
         setTimeout(function(){
-            simulateRacing(timeout,speed);    
-        },simulationSpeed);
+            simulateRacing(timeout);    
+        },speed);
     }           
 }
 function loadAllTrajectories(callback){
@@ -195,10 +196,12 @@ function loadAllTrajectories(callback){
         });
     }
 }
+function changeSpeed(speed){
+    simulationSpeed = speed;
+}
 function playSimulation(){
     simulationPaused = false;
     var timeout = 1000;
-    var speed = 10;
     // if(competitorsRoutes.length == 0){
     //     loadAllTrajectories(function(){
     //         simulateRacing(timeout, speed);
@@ -208,7 +211,7 @@ function playSimulation(){
     //     simulateRacing(timeout, speed);
     // }  
     if(trajectoriesLoaded){
-        simulateRacing(timeout,speed);
+        simulateRacing(timeout);
     }
     else{
         alert('Trajectories still not loaded!');
@@ -220,6 +223,7 @@ function pauseSimulation(){
 
 function stopSimulation(){
     simulationPaused = true;
+    simulationSpeed = 1;
     stopTime();
     initLeaderboard();
     if(competitorsRoutes){
@@ -249,52 +253,55 @@ function getCompetitorsOrder(time){
         npArr.push(nearestPointObj.i);
     }    
     var compRanks = sortAndRankArray(distancesArr);
-
-    for(var i = 0; i <= compRanks.length; i++) {
-        for(var j = i; j <= compRanks.length; j++) {
-            if(i != j && compRanks[i] == compRanks[j]) {                
-                var distI;
-                var distJ;
-                var pointI;
-                var pointJ;
-                var nextP = true; //computation based on next point
-                if(g_routeArray[npArr[i]+1] && g_routeArray[npArr[J]+1]){ //if next point exist, nearest point is not last
-                    pointI = g_routeArray[npArr[i]+1].position;
-                    pointJ = g_routeArray[npArr[j]+1].position;   
-                }
-                else{ //nearest point is last point, check previous point
-                    nextP = false;
-                    if(g_routeArray[npArr[i]-1] && g_routeArray[npArr[i]-1]){
-                        pointI = g_routeArray[npArr[i]-1].position;
-                        pointJ = g_routeArray[npArr[j]-1].position; 
+    do{
+    var changed = false;
+        for(var i = 0; i <= compRanks.length; i++) {
+            for(var j = i; j <= compRanks.length; j++) {
+                if(i != j && compRanks[i] == compRanks[j]) { 
+                    changed = true;               
+                    var distI;
+                    var distJ;
+                    var pointI;
+                    var pointJ;
+                    var nextP = true; //computation based on next point
+                    if(g_routeArray[npArr[i]+1] && g_routeArray[npArr[J]+1]){ //if next point exist, nearest point is not last
+                        pointI = g_routeArray[npArr[i]+1].position;
+                        pointJ = g_routeArray[npArr[j]+1].position;   
                     }
-                    else{
-                        alert('error in order finding');
-                        return;
+                    else{ //nearest point is last point, check previous point
+                        nextP = false;
+                        if(g_routeArray[npArr[i]-1] && g_routeArray[npArr[i]-1]){
+                            pointI = g_routeArray[npArr[i]-1].position;
+                            pointJ = g_routeArray[npArr[j]-1].position; 
+                        }
+                        else{
+                            alert('error in order finding');
+                            return;
+                        }
                     }
-                }
-                distI = calculateDistance(actualPositions[i],pointI);
-                distJ = calculateDistance(actualPositions[j],pointJ);
-                
-                if(nextP){ //computation based on next point from nearest point 
-                    if(distI < distJ){ 
-                        compRanks[i]++;
+                    distI = calculateDistance(actualPositions[i],pointI);
+                    distJ = calculateDistance(actualPositions[j],pointJ);
+                    
+                    if(nextP){ //computation based on next point from nearest point 
+                        if(distI < distJ){ 
+                            compRanks[i]++;
+                        }
+                        else{
+                            compRanks[j]++;
+                        }
                     }
-                    else{
-                        compRanks[j]++;
-                    }
-                }
-                else{ //computation based on previous point from nearest point
-                    if(distI < distJ){ //comp. i is further from prev. point rank++
-                        compRanks[j]++;
-                    }
-                    else{
-                        compRanks[i]++;
+                    else{ //computation based on previous point from nearest point
+                        if(distI < distJ){ //comp. i is further from prev. point rank++
+                            compRanks[j]++;
+                        }
+                        else{
+                            compRanks[i]++;
+                        }
                     }
                 }
             }
         }
-    }
+    }while(changed);
     var positionArr = createPositionArray(compRanks);
     return positionArr; //index of array is position (0 is undefined),value = competitor id
 }

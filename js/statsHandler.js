@@ -17,7 +17,7 @@ function getActualPassedDistance(compId, time){ //metres
 function initLeaderboard(){
     $("#leaderboard").empty();    
     for(var compId = 0 ; compId < NUM_COMPETITORS ; compId++){
-        var img_src = AVATAR_DIR+AVATAR_IMG_NAME+(compId+1)+PNG;
+        var img_src = AVATAR_DIR+AVATAR_IMG_NAME+compId+PNG;
         var name = getCompetitorInfo(compId);
         var speed = 0;
         var distance = 0;
@@ -31,7 +31,7 @@ function updateLeaderboard(positionArr,time){
     $("#leaderboard").empty();    
     for(var pos = 1 ; pos <= NUM_COMPETITORS ; pos++){        
         var compId  = positionArr[pos]; 
-        var img_src = AVATAR_DIR+AVATAR_IMG_NAME+pos+PNG;
+        var img_src = AVATAR_DIR+AVATAR_IMG_NAME+compId+PNG;
         var name = getCompetitorInfo(compId);
         var speed = getActualSpeed(compId, time);
         speed = speed.toFixed(1);
