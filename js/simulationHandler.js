@@ -8,7 +8,7 @@ const NUM_COMPETITORS = 2;
 const MARKER_SIZE = 20;
 var competitorsRoutes = [];
 var time = 0;
-var simulationPaused = false;
+var simulationPaused = false;   
 var trajectoriesLoaded = false;
 var tr_loaded_inverse_cnt = NUM_COMPETITORS;
 
