@@ -14,6 +14,13 @@ function getActualPassedDistance(compId, time){ //metres
     var nearestPointObj = findNearestRoutePointObj(actualPos.position,g_routeArray);
     return nearestPointObj.npObj.distFromStart;
 }
+function getDistanceToGo(distancePassed){
+    var distToGo = g_routeArray[g_routeArray.length-1].distFromStart;
+    if(distancePassed){
+        distToGo = distToGo - distancePassed;
+    }
+    return distToGo;
+}
 function initLeaderboard(){
     $("#leaderboard").empty();    
     for(var compId = 0 ; compId < NUM_COMPETITORS ; compId++){

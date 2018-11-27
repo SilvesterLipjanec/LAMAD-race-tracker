@@ -6,8 +6,10 @@ const AVATAR_IMG_NAME = 'avatar_';
 const PNG = '.png';
 const NUM_COMPETITORS = 10;
 const MARKER_SIZE = 20;
+const SIMULATION_SPEED_DIFF = 2;
 var competitorsRoutes = [];
 var time = 0;
+var followedCompetitor = 0;
 var simulationSpeed = 1;
 var simulationPaused = false;   
 var trajectoriesLoaded = false;
@@ -15,7 +17,6 @@ var tr_loaded_inverse_cnt = NUM_COMPETITORS;
 
 function getCompetitorInfo(compNumber){
     return competitorsRoutes[compNumber].info;
-    //return "Firstname"+compNumber+" Secondname"+compNumber;
 }
 function initMarker(compNumber){
     var iconUrl = COMP_ICON_DIR+'c'+compNumber+'.png';
@@ -25,21 +26,51 @@ function initMarker(compNumber){
         scaledSize:new google.maps.Size(MARKER_SIZE,MARKER_SIZE),
         origin:new google.maps.Point(0,0),
         anchor:new google.maps.Point(MARKER_SIZE/2,MARKER_SIZE/2)
-    }
+    }   
+    var competitorInfo = getInfoWindowContent(compNumber,time);
+    var compInfoWindow = new google.maps.InfoWindow({
+        content: competitorInfo
+      });
     competitorsRoutes[compNumber].marker = new google.maps.Marker({
         position: competitorsRoutes[compNumber][0].position, 
         map: map,
-        icon: icon
-    });
-    var competitorInfo = getCompetitorInfo(compNumber);
-    var infowindow = new google.maps.InfoWindow({
-        content: competitorInfo
-      });
+        icon: icon,
+        infowindow: compInfoWindow
+    });    
     competitorsRoutes[compNumber].marker.addListener('click', function() {
-        infowindow.open(map, competitorsRoutes[compNumber].marker);
-      });
-        
+        hideAllInfoWindows();
+        competitorsRoutes[compNumber].marker.infowindow
+            .open(map, competitorsRoutes[compNumber].marker);   
+        followedCompetitor = compNumber;     
+    });
+}
+function getInfoWindowContent(compNumber, time){
+    var positionArr = getCompetitorsOrder(time); 
+    var competitorName = getCompetitorInfo(compNumber);
+    var competitorRank = findRankFromPositionArr(positionArr,compNumber);
+    return competitorRank + ". " + competitorName;
+} 
 
+function hideAllInfoWindows(){
+    competitorsRoutes.forEach(function(competitor){
+        if(competitor.marker.infowindow){
+            competitor.marker.infowindow.close();
+        }
+    })
+}
+function updateAllInfoWindows(time){
+    competitorsRoutes.forEach(function(competitor,compNumber){
+        var content = getInfoWindowContent(compNumber,time);
+        competitor.marker.infowindow.setContent(content);
+    });
+}
+
+function findRankFromPositionArr(positionArr,compNumber){
+    for(var i = 0 ; i < positionArr.length ; i++){
+        if(positionArr[i] == compNumber){
+            return i;
+        }
+    }
 }
 function getActualPosition(compNumber,time){
     var posInTime = $.grep(competitorsRoutes[compNumber], function(posInTime){
@@ -173,7 +204,9 @@ function simulateRacing(timeout){
         var pointUpdated = updateCompetitorMarkers(time);
         if(pointUpdated && time != 0){
             var positionArr = getCompetitorsOrder(time);
-            updateLeaderboard(positionArr,time);    
+            updateLeaderboard(positionArr,time);
+            updateAllInfoWindows(time);
+            showFollowedCompInfo(followedCompetitor,time);
         }         
         time = startTime(time,timeout);   
         setTimeout(function(){
@@ -198,20 +231,23 @@ function loadAllTrajectories(callback){
 }
 function changeSpeed(speed){
     simulationSpeed = speed;
+    showSimulationSpeed(simulationSpeed);
+}
+function simulationSpeedFaster(){
+    speed = simulationSpeed * SIMULATION_SPEED_DIFF;
+    changeSpeed(speed);   
+}
+function simulationSpeedSlower(){
+    speed = simulationSpeed / SIMULATION_SPEED_DIFF;
+    changeSpeed(speed);
 }
 function playSimulation(){
     simulationPaused = false;
     var timeout = 1000;
-    // if(competitorsRoutes.length == 0){
-    //     loadAllTrajectories(function(){
-    //         simulateRacing(timeout, speed);
-    //     });
-    // }
-    // else{
-    //     simulateRacing(timeout, speed);
-    // }  
     if(trajectoriesLoaded){
         simulateRacing(timeout);
+        showSimulationSpeed(simulationSpeed);
+        ShowProgressBar();
     }
     else{
         alert('Trajectories still not loaded!');
@@ -226,6 +262,7 @@ function stopSimulation(){
     simulationSpeed = 1;
     stopTime();
     initLeaderboard();
+    showSimulationSpeed(simulationSpeed);
     if(competitorsRoutes){
         for(i = 0 ; i < competitorsRoutes.length ; i++){
             competitorsRoutes[i].marker.setMap(null);
@@ -254,7 +291,7 @@ function getCompetitorsOrder(time){
     }    
     var compRanks = sortAndRankArray(distancesArr);
     do{
-    var changed = false;
+        var changed = false;
         for(var i = 0; i <= compRanks.length; i++) {
             for(var j = i; j <= compRanks.length; j++) {
                 if(i != j && compRanks[i] == compRanks[j]) { 

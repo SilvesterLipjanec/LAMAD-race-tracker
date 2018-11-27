@@ -39,8 +39,8 @@
                                             <tr>
                                                 <td><p class="caption">duration</p><p id="time" class="info">00:00:00</p></td>
                                                 <td><p class="caption"><img id="flag" src="/images/icons/flag.png"></td>
-                                                <td><p class="caption">distance</p><p class="info">4,5 km</p></td>
-                                                <td><p class="caption">finish</p><p class="info">500m</p></td>
+                                                <td><p class="caption">distance</p><p class="info" id="distPassed">0 km</p></td>
+                                                <td><p class="caption">finish</p><p class="info" id="distToGo">0 km</p></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -48,11 +48,11 @@
                                             <button id="extendProgressBtn" onclick="ShowProgressBar()">&and;</button>
                                             <table>
                                                 <tr>    
-                                                    <td><i class="material-icons btnFontSize">fast_rewind</i></td>
-                                                    <td><i class="material-icons btnFontSize">play_circle_outline</i></td>
-                                                    <td><i class="material-icons btnFontSize">fast_forward</i></td>
-                                                    <td><i class="material-icons btnFontSize">stop</i></td>
-                                                    <td><i class="calibri btnFontSize">0x</i></td>
+                                                    <td><i class="material-icons btnFontSize" onclick="simulationSpeedSlower()">fast_rewind</i></td>
+                                                    <td><i class="material-icons btnFontSize" onclick="playSimulation()">play_circle_outline</i></td>
+                                                    <td><i class="material-icons btnFontSize" onclick="simulationSpeedFaster()">fast_forward</i></td>
+                                                    <td><i class="material-icons btnFontSize" onclick="stopSimulation()">stop</i></td>
+                                                    <td><i class="calibri btnFontSize" id="speed">0x</i></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="5"><progress value="22" max="100"></progress></td>
