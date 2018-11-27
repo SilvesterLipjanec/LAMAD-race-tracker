@@ -57,7 +57,7 @@ html, body {
     padding: 0;
 }
 #mainelements td {
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 #follow {
@@ -213,16 +213,16 @@ html, body {
     width: 100vw;
     margin: 0;
     padding: 0;
-    background:blue;
     float: right;
     overflow-y: scroll;
 }
 
 .competitor {
     display: grid;
-          grid-template-areas:
+    grid-template-areas:
             'photo place  name'
             'photo place  stat';
+    grid-template-columns: 20vh calc(6vh + 6vw + 6vmin) auto auto;
     height: 20vh;
     background-color:rgb(234, 234, 234);
 }
@@ -249,10 +249,10 @@ html, body {
 }
 .name {
     grid-area: name;
-    font-size: 7vw;
+    font-size: calc(2vh + 2vw + 2vmin);
     height: 10vh;
     float: left;
-    line-height: 6vw;
+    line-height: calc(2vh + 2vw + 2vmin);
     padding: 1vh 0 0 0;
 }
 
