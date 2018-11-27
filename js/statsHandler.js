@@ -1,3 +1,6 @@
+const WHITE_COMP_CLASS = "competitor_white";
+const GREY_COMP_CLASS = "competitor_grey";
+
 function getActualSpeed(compId, time){
     var posId = getActualPositionId(compId, time);
     if(posId){
@@ -35,7 +38,8 @@ function initLeaderboard(){
         var speed = 0;
         var distance = 0;
         var diff = 0;
-        var compDiv = createCompetitorDiv(img_src,(compId+1),name,speed,distance,diff);
+        var classId = getDivCompClass(compId);
+        var compDiv = createCompetitorDiv(img_src,(compId+1),name,speed,distance,diff,classId);
         $("#leaderboard").append(compDiv);
     }
 }
@@ -51,12 +55,20 @@ function updateLeaderboard(positionArr,time){
         var distance = getActualPassedDistance(compId, time) / 1000; //km;
         distance = distance.toFixed(2); 
         var diff = 10;
-        var compDiv = createCompetitorDiv(img_src,pos,name,speed,distance,diff);
+        var classId = getDivCompClass(pos);
+        var compDiv = createCompetitorDiv(img_src,pos,name,speed,distance,diff,classId);
         $("#leaderboard").append(compDiv);
     }
 }
-
-function createCompetitorDiv(img_src,pos,name,speed,distance,diff){
+function getDivCompClass(index){
+    if(index % 2 == 0){
+        return WHITE_COMP_CLASS;
+    }
+    else{
+        return GREY_COMP_CLASS;
+    }
+}
+function createCompetitorDiv(img_src,pos,name,speed,distance,diff,classId){
     var compPhoto = $("<img></img>",{
         class:"photo",
         src: img_src
@@ -70,8 +82,8 @@ function createCompetitorDiv(img_src,pos,name,speed,distance,diff){
     var compStat = $("<div></div>",{
         class:"stat"
     }).text("Speed: "+speed+" km/h | Distance: "+distance+" km");//| Diff: "+diff+" s");
-    var compDiv = $("<div></div>",{
-        class: "competitor"
+    var compDiv = $("<div ></div>",{
+        "class": classId,
     }).append(compPhoto,compPosition,compName,compStat);
     return compDiv;
 }

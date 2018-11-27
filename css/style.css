@@ -217,7 +217,7 @@ html, body {
     overflow-y: scroll;
 }
 
-.competitor {
+.competitor_grey {
     display: grid;
     grid-template-areas:
             'photo place  name'
@@ -225,6 +225,15 @@ html, body {
     grid-template-columns: 20vh calc(6vh + 6vw + 6vmin) auto auto;
     height: 20vh;
     background-color:rgb(234, 234, 234);
+}
+.competitor_white{
+    display: grid;
+    grid-template-areas:
+            'photo place  name'
+            'photo place  stat';
+    grid-template-columns: 20vh calc(6vh + 6vw + 6vmin) auto auto;
+    height: 20vh;
+    background-color: white;
 }
 .compatitorW {
     display: grid;
