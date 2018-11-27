@@ -37,4 +37,11 @@ function showFollowedCompInfo(compId,time){
     }
    
     
-}     
+}   
+
+function FitTexts(){  
+    var fitties = document.getElementsByClassName(".fit");
+    for (let index = 0; index < fitties.length; index++) {
+        fitties[index].fit();   
+    }
+}
