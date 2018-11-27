@@ -38,28 +38,20 @@ function showFollowedCompInfo(compId,time){
         distToGo = distToGo / 1000;
         distToGo = distToGo.toFixed(2);
         $("#distToGo").text(distToGo+" km");
-    }  
-    var compInfo = getInfoWindowContent(compId,time);
-    $("#nameCaption").text(compInfo);  
+<<<<<<< HEAD
+    }
+   
+    
+}   
+
+//research
+function fitTexts(){  
+    var fitties = document.getElementsByClassName(".fit");
+    for (let index = 0; index < fitties.length; index++) {
+        fitties[index].fit();   
+    }
 }
-function initFollowedCompInfo(){
-    $("#distPassed").text("0 m");
-    $("#distToGo").text("0 m");
-    $("#nameCaption").text("");
-}    
-function changePlayToPause(){
-    $("#playBtn").text('pause_circle_outline').attr({"onclick" : "pauseSimulation()"});
-} 
-function changePauseToPlay(){
-    $("#playBtn").text('play_circle_outline').attr({"onclick" : "playSimulation()"});
-}
-function setProgressBarMaximum(){
-    var max = getMaximumTimestamp();
-    $("progress").attr({"max" : max});
-}
-function updateProgressBar(time){
-    $("progress").attr({"value" : time});
-}
+
 function changeSimulationIndicator(state){
     var text;
     switch (state) {
@@ -89,4 +81,27 @@ function rotate180deg(element){
     }
     rot = $(element).css('transform');
     //console.log("after: "+rot);
+=======
+    }  
+    var compInfo = getInfoWindowContent(compId,time);
+    $("#nameCaption").text(compInfo);  
+}
+function initFollowedCompInfo(){
+    $("#distPassed").text("0 m");
+    $("#distToGo").text("0 m");
+    $("#nameCaption").text("");
+}    
+function changePlayToPause(){
+    $("#playBtn").text('pause_circle_outline').attr({"onclick" : "pauseSimulation()"});
+} 
+function changePauseToPlay(){
+    $("#playBtn").text('play_circle_outline').attr({"onclick" : "playSimulation()"});
+}
+function setProgressBarMaximum(){
+    var max = getMaximumTimestamp();
+    $("progress").attr({"max" : max});
+}
+function updateProgressBar(time){
+    $("progress").attr({"value" : time});
+>>>>>>> cc76b73d9796728c2bf7e334aac286739733c715
 }

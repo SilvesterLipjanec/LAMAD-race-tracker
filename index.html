@@ -37,18 +37,17 @@
                                     <div id="infoBar">
                                         <table>
                                             <tr>
-                                                <td rowspan="2" id="durationField"><p class="caption fit">duration</p><p id="time" class="info">00:00:00</td>
+                                                <td rowspan="2" >
+                                                    <p class="caption fit">duration</p>
+                                                    <p id="time" class="info">00:00:00</td>
                                                 <td rowspan="2"><img id="flag" src="/images/icons/flag.png"></td>
-                                                <td colspan="2"><p class="caption fit" id="nameCaption">Putthe Namehere</p></td>
+                                                <td colspan="2"><p class="caption fit" id="nameCaption"></p></td>
                                             </tr>
                                             <tr>
                                                 <td><p><p class="caption fit">distance</p><p class="info fit" id="distPassed">0 km</p></td>
                                                 <td><p><p class="caption fit">finish</p><p class="info fit" id="distToGo">0 km</p></td>
                                             </tr>
                                         </table>
-                                        <script>
-                                                fitty('.fit');
-                                                </script>
                                     </div>
                                     <div id="progressBar">
                                         
@@ -57,13 +56,13 @@
                                             <table>
                                                 <tr>    
                                                     <td><i class="material-icons btnFontSize" onclick="simulationSpeedSlower()">fast_rewind</i></td>
-                                                    <td><i class="material-icons btnFontSize" onclick="playSimulation()">play_circle_outline</i></td>
+                                                    <td><i class="material-icons btnFontSize" onclick="playSimulation()" id="playBtn">play_circle_outline</i></td>
                                                     <td><i class="material-icons btnFontSize" onclick="simulationSpeedFaster()">fast_forward</i></td>
                                                     <td><i class="material-icons btnFontSize" onclick="stopSimulation()">stop</i></td>
                                                     <td><i class="calibri btnFontSize" id="speed">0x</i></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="5"><progress value="22" max="100"></progress></td>
+                                                    <td colspan="5"><progress value="0" max="100"></progress></td>
                                                 </tr>
                                             </table>
                                             
@@ -93,7 +92,6 @@
             <script src="js/statsHandler.js"></script>
             <script src="js/simulationHandler.js"></script>
             <script src="js/visual.js"></script>
-            <script src="js/fitty.min.js"></script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2YXHpksnAc5JXUEF1M0yFxy9xqWr-XYw&callback=initMap"
             async defer></script>
     </div>

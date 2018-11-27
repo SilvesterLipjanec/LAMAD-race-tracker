@@ -13,7 +13,8 @@ function getActualPassedDistance(compId, time){ //metres
     var actualPos = getActualPosition(compId, time);
     var t = time;
     while(!actualPos){
-        t = t - 1000;
+        t = t - 1000; //solving problem that data about position is not every 1000ms but every 4000ms
+                        //therefore you want neariest previous position
         actualPos = getActualPosition(compId, t);
     }
     var nearestPointObj = findNearestRoutePointObj(actualPos.position,g_routeArray);

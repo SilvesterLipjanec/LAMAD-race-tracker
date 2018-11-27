@@ -9,7 +9,7 @@ const MARKER_SIZE = 20;
 const SIMULATION_SPEED_DIFF = 2;
 var competitorsRoutes = [];
 var time = 0;
-var followedCompetitor = 1;
+var followedCompetitor = -1;
 var simulationSpeed = 1;
 var simulationPaused = false;   
 var trajectoriesLoaded = false;
@@ -31,6 +31,10 @@ function initMarker(compNumber){
     var compInfoWindow = new google.maps.InfoWindow({
         content: competitorInfo
       });
+    compInfoWindow.addListener('closeclick',function(){
+        followedCompetitor = -1;
+        showFollowedCompInfo(followedCompetitor,time);
+    })
     competitorsRoutes[compNumber].marker = new google.maps.Marker({
         position: competitorsRoutes[compNumber][0].position, 
         map: map,
@@ -209,7 +213,8 @@ function simulateRacing(timeout){
             updateLeaderboard(positionArr,time);
             updateAllInfoWindows(time);                    
             showFollowedCompInfo(followedCompetitor,time);
-        }         
+        }
+        updateProgressBar(time);         
         time = startTime(time,timeout);   
         setTimeout(function(){
             simulateRacing(timeout);    
@@ -243,13 +248,25 @@ function simulationSpeedSlower(){
     speed = simulationSpeed / SIMULATION_SPEED_DIFF;
     changeSpeed(speed);
 }
+function getMaximumTimestamp(){
+    var max = 0; 
+    competitorsRoutes.forEach(function(competitorData){
+        var t = competitorData[competitorData.length-1].timestamp;
+        if(t > max){
+            max = t;
+        }
+    });
+    return max;
+}
 function playSimulation(){
     simulationPaused = false;
     var timeout = 1000;
     if(trajectoriesLoaded){
         simulateRacing(timeout);
         showSimulationSpeed(simulationSpeed);
-        ShowProgressBar();
+        showProgressBar();
+        changePlayToPause();
+        setProgressBarMaximum();
     }
     else{
         alert('Trajectories still not loaded!');
@@ -257,13 +274,17 @@ function playSimulation(){
 }
 function pauseSimulation(){
     simulationPaused = true;
+    changePauseToPlay();
 }
 
 function stopSimulation(){
     simulationPaused = true;
     simulationSpeed = 1;
     stopTime();
+    updateProgressBar(time);
+    changePauseToPlay();
     initLeaderboard();
+    initFollowedCompInfo();
     showSimulationSpeed(simulationSpeed);
     if(competitorsRoutes){
         for(i = 0 ; i < competitorsRoutes.length ; i++){
@@ -283,8 +304,13 @@ function getCompetitorsOrder(time){
     var actualPositions = [];
     var npArr = []; //array of nearest points indexes
     var compRanks = []; //index = competitor number, value = rank
-    for(i = 0 ; i < NUM_COMPETITORS ; i++ ){        
-        var actualPos = getActualPosition(i, time);
+    for(i = 0 ; i < NUM_COMPETITORS ; i++ ){
+        var t = time;
+        var actualPos = getActualPosition(i, t);        
+        while(!actualPos){
+            t = t - 1000; 
+            actualPos = getActualPosition(i, t);
+        }
         var actualPosPoint = actualPos.position;
         actualPositions.push(actualPosPoint);
         var nearestPointObj = findNearestRoutePointObj(actualPosPoint,g_routeArray);
