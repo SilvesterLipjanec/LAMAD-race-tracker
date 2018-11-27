@@ -9,7 +9,7 @@ const MARKER_SIZE = 20;
 const SIMULATION_SPEED_DIFF = 2;
 var competitorsRoutes = [];
 var time = 0;
-var followedCompetitor = 0;
+var followedCompetitor = 1;
 var simulationSpeed = 1;
 var simulationPaused = false;   
 var trajectoriesLoaded = false;
@@ -41,7 +41,9 @@ function initMarker(compNumber){
         hideAllInfoWindows();
         competitorsRoutes[compNumber].marker.infowindow
             .open(map, competitorsRoutes[compNumber].marker);   
-        followedCompetitor = compNumber;     
+        followedCompetitor = compNumber;
+        showFollowedCompInfo(followedCompetitor,time);
+
     });
 }
 function getInfoWindowContent(compNumber, time){
@@ -205,7 +207,7 @@ function simulateRacing(timeout){
         if(pointUpdated && time != 0){
             var positionArr = getCompetitorsOrder(time);
             updateLeaderboard(positionArr,time);
-            updateAllInfoWindows(time);
+            updateAllInfoWindows(time);                    
             showFollowedCompInfo(followedCompetitor,time);
         }         
         time = startTime(time,timeout);   

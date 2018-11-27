@@ -11,6 +11,11 @@ function getActualSpeed(compId, time){
 }
 function getActualPassedDistance(compId, time){ //metres
     var actualPos = getActualPosition(compId, time);
+    var t = time;
+    while(!actualPos){
+        t = t - 1000;
+        actualPos = getActualPosition(compId, t);
+    }
     var nearestPointObj = findNearestRoutePointObj(actualPos.position,g_routeArray);
     return nearestPointObj.npObj.distFromStart;
 }
