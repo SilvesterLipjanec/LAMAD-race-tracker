@@ -14,6 +14,10 @@ function hideSimulationSpeed(){
     $("#speed").text("");
 }
 function showFollowedCompInfo(compId,time){
+    if(compId == -1){ //follow first competitor
+        var positionArr = getCompetitorsOrder(time);
+        compId = positionArr[1];
+    }
     var distPassed = getActualPassedDistance(compId, time); //metres;
     var distToGo = getDistanceToGo(distPassed); //metres
     
@@ -34,7 +38,58 @@ function showFollowedCompInfo(compId,time){
         distToGo = distToGo / 1000;
         distToGo = distToGo.toFixed(2);
         $("#distToGo").text(distToGo+" km");
-    }    
+<<<<<<< HEAD
+    }
+   
+    
+}   
+
+//research
+function fitTexts(){  
+    var fitties = document.getElementsByClassName(".fit");
+    for (let index = 0; index < fitties.length; index++) {
+        fitties[index].fit();   
+    }
+}
+
+function changeSimulationIndicator(state){
+    var text;
+    switch (state) {
+        case "stop":
+            text="Simulation stopped"
+            break;
+        case "play":
+            text="Simulation in progress..."
+            break;
+        case "pause":
+            text="Simulation paused"
+            break;
+        default:
+            text="";
+            break;
+    }
+    $("#simulationIndicator").text(text);
+}
+
+function rotate180deg(element){
+    var rot = $(element).css('transform');
+    //console.log("before: "+rot);
+    if (rot == "matrix(-1, 1.22465e-16, -1.22465e-16, -1, 0, 0)") {
+        $(element).css({'transform' : 'rotate(0deg)'});
+    } else {
+        $(element).css({'transform' : 'rotate(180deg)'});
+    }
+    rot = $(element).css('transform');
+    //console.log("after: "+rot);
+=======
+    }  
+    var compInfo = getInfoWindowContent(compId,time);
+    $("#nameCaption").text(compInfo);  
+}
+function initFollowedCompInfo(){
+    $("#distPassed").text("0 m");
+    $("#distToGo").text("0 m");
+    $("#nameCaption").text("");
 }    
 function changePlayToPause(){
     $("#playBtn").text('pause_circle_outline').attr({"onclick" : "pauseSimulation()"});
@@ -42,4 +97,11 @@ function changePlayToPause(){
 function changePauseToPlay(){
     $("#playBtn").text('play_circle_outline').attr({"onclick" : "playSimulation()"});
 }
-
+function setProgressBarMaximum(){
+    var max = getMaximumTimestamp();
+    $("progress").attr({"max" : max});
+}
+function updateProgressBar(time){
+    $("progress").attr({"value" : time});
+>>>>>>> cc76b73d9796728c2bf7e334aac286739733c715
+}

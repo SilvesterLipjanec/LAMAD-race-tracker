@@ -50,7 +50,9 @@
                                         </table>
                                     </div>
                                     <div id="progressBar">
-                                            <button id="extendProgressBtn" onclick="showProgressBar()">&and;</button>
+                                        
+                                            <button id="extendProgressBtn" onclick="ShowProgressBar(); rotate180deg(extendProgressBtn);">&and;</button>
+                                            <div id="simulationIndicator">Simulation is stoped</div>
                                             <table>
                                                 <tr>    
                                                     <td><i class="material-icons btnFontSize" onclick="simulationSpeedSlower()">fast_rewind</i></td>
@@ -69,7 +71,7 @@
                                     </div>
                         </div>
                         </td>
-                        <td>
+                        <td id="leaderboardCell">
                             <div id="leaderboard">
                                 <div class="competitor">
                                     <img class="photo" src="/images/avatars/avatar_1.png">
