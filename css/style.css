@@ -106,7 +106,7 @@ html, body {
 .caption{
     text-align: center;
     margin:0;
-    font-size: calc(1vw + 1vh + 1vmin);;
+    font-size: calc(1vw + 1vh + 1vmin);
 }
 .info{
     font-size: calc(2vw + 2vh + 1vmin);
@@ -132,7 +132,6 @@ html, body {
 }
 
 #extendProgressBtn{
-    
     float: right;
     width: 5vmin;
     height: 5vmin;
@@ -141,6 +140,8 @@ html, body {
     top: -2vmin;
     padding: 0;
     border-radius: 4vmin;
+    font-size: 2vmax;
+    transform: matrix(1, 0, 0, 1, 0, 0);
     /*
     border-radius: 50%;
     position: relative;
@@ -155,7 +156,12 @@ html, body {
     border: 5px solid white;
     */
 }
-
+#simulationIndicator{
+    margin:0;
+    padding: 0.5vh 0 0 0.5vw;
+    font-size: calc(1vw + 1vh + 1vmin);
+    text-align: center;
+}
 @font-face {
     font-family: 'Material Icons';
     font-style: normal;
@@ -196,7 +202,12 @@ html, body {
 .btnFontSize{
     font-size: 10vmin;
 }
+#leaderboardCell{
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
 
+}
 #leaderboard {
     height: 90vh;
     width: 100vw;
@@ -238,10 +249,11 @@ html, body {
 }
 .name {
     grid-area: name;
-    font-size: calc(3vw + 3vh + .5vmin);
+    font-size: 7vw;
     height: 10vh;
     float: left;
-    line-height: 10vh
+    line-height: 6vw;
+    padding: 1vh 0 0 0;
 }
 
 .stat {
