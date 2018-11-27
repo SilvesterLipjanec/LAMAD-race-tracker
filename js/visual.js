@@ -1,4 +1,4 @@
-function ShowProgressBar(){    
+function showProgressBar(){    
     var t = $("#progressBar").css('top');
     if  (t=='0px'){
         $("#progressBar").css({'top' : '-15vmin'});
@@ -34,7 +34,11 @@ function showFollowedCompInfo(compId,time){
         distToGo = distToGo / 1000;
         distToGo = distToGo.toFixed(2);
         $("#distToGo").text(distToGo+" km");
-    }
-   
-    
-}     
+    }    
+}    
+function changePlayToPause(){
+    $("#playBtn").text('pause_circle_outline').attr({"onclick" : "pauseSimulation()"});
+} 
+function changePauseToPlay(){
+    $("#playBtn").text('play_circle_outline').attr({"onclick" : "playSimulation()"});
+}

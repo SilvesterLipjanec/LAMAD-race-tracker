@@ -249,7 +249,8 @@ function playSimulation(){
     if(trajectoriesLoaded){
         simulateRacing(timeout);
         showSimulationSpeed(simulationSpeed);
-        ShowProgressBar();
+        showProgressBar();
+        changePlayToPause();
     }
     else{
         alert('Trajectories still not loaded!');
@@ -257,6 +258,7 @@ function playSimulation(){
 }
 function pauseSimulation(){
     simulationPaused = true;
+    changePauseToPlay();
 }
 
 function stopSimulation(){
