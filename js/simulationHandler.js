@@ -267,12 +267,14 @@ function playSimulation(){
         showProgressBar();
         changePlayToPause();
         setProgressBarMaximum();
+        changeSimulationIndicator("play");
     }
     else{
         alert('Trajectories still not loaded!');
     }  
 }
 function pauseSimulation(){
+    changeSimulationIndicator("pause");
     simulationPaused = true;
     changePauseToPlay();
 }
@@ -281,6 +283,7 @@ function stopSimulation(){
     simulationPaused = true;
     simulationSpeed = 1;
     stopTime();
+    changeSimulationIndicator("stop");
     updateProgressBar(time);
     changePauseToPlay();
     initLeaderboard();

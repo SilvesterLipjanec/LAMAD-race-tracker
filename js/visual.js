@@ -5,7 +5,8 @@ function showProgressBar(){
     }
     else{
         $("#progressBar").css({'top' : '0px'});
-    }    
+    }
+    rotate180deg(extendProgressBtn);   
 }
 function showSimulationSpeed(simulationSpeed){
     $("#speed").text(simulationSpeed+"x");

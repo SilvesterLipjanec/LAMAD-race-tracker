@@ -63,7 +63,7 @@ function createCompetitorDiv(img_src,pos,name,speed,distance,diff){
     });
     var compPosition = $("<div></div>",{
         class:"place"
-    }).text(pos);
+    }).text(pos+".");
     var compName = $("<div></div>",{
             class:"name"
     }).text(name);
