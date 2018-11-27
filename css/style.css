@@ -246,6 +246,7 @@ html, body {
     line-height: 16vh;
     font-size: calc(4vw + 4vh + .5vmin);
     float: left;
+    text-align: center;
 }
 .name {
     grid-area: name;
