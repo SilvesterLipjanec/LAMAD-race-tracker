@@ -43,8 +43,8 @@ function showFollowedCompInfo(compId,time){
     $("#nameCaption").text(compInfo);  
 }
 function initFollowedCompInfo(){
-    $("#distPassed").text("0 m");
-    $("#distToGo").text("0 m");
+    $("#distPassed").text("0 km");
+    $("#distToGo").text("0 km");
     $("#nameCaption").text("");
 }    
 function changePlayToPause(){
