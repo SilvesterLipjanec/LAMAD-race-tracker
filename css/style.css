@@ -57,7 +57,7 @@ html, body {
     padding: 0;
 }
 #mainelements td {
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 #follow {
@@ -92,13 +92,24 @@ html, body {
     width: 100vw;
     padding: 0;
 }
+#infoBar table p{
+    margin: 0;
+    padding: 0;
+}
+#durationField{
+    width: 30%;
+}
+
+#nameCaption{
+    font-weight: bold;
+}
 .caption{
     text-align: center;
     margin:0;
-    font-size: calc(2vw + 2vh + .5vmin);;
+    font-size: calc(1vw + 1vh + 1vmin);;
 }
 .info{
-    font-size: calc(3vw + 3vh + .5vmin);
+    font-size: calc(2vw + 2vh + 1vmin);
     margin: 0;
     text-align: center;
 }
@@ -111,7 +122,7 @@ html, body {
     height: 25%;
     width: inherit;
     background-color:rgb(238, 235, 235);
-    box-shadow: 0 -10px 18px #888888;
+    box-shadow: 0 -5px 5px #888888;
 }
 #progressBar table{
     width: 100%;
