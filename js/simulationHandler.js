@@ -5,7 +5,7 @@ const AVATAR_DIR = './images/avatars/';
 const AVATAR_IMG_NAME = 'avatar_';
 const PNG = '.png';
 const NUM_COMPETITORS = 10;
-const MARKER_SIZE = 20;
+const MARKER_SIZE = 40;
 const SIMULATION_SPEED_DIFF = 2;
 var competitorsRoutes = [];
 var time = 0;
@@ -14,7 +14,7 @@ var simulationSpeed = 1;
 var simulationPaused = false;   
 var trajectoriesLoaded = false;
 var tr_loaded_inverse_cnt = NUM_COMPETITORS;
-
+var g_final_position = [];
 function getCompetitorInfo(compNumber){
     return competitorsRoutes[compNumber].info;
 }
@@ -161,8 +161,8 @@ function drawProjectionPolyline(compNumber, time){
 function findNearestRoutePointObj(position,route){
     var minDistance;
     var npObj; //nearest point object
-    var i;
-    for(i = 0 ; i < route.length ; i++){        
+    var id = 0;
+    for(var i = 0 ; i < route.length ; i++){        
         var trajectoryPoint = {
             lat: route[i].position.lat,
             lng: route[i].position.lng
@@ -176,10 +176,11 @@ function findNearestRoutePointObj(position,route){
             if(distance < minDistance){
                 minDistance = distance;
                 npObj = route[i];
+                id = i;
             }
         }
     }
-    return {i,npObj};
+    return {id,npObj};
 }
 function startTime(time,timeout){
     time = time + timeout;
@@ -307,6 +308,7 @@ function getCompetitorsOrder(time){
     var actualPositions = [];
     var npArr = []; //array of nearest points indexes
     var compRanks = []; //index = competitor number, value = rank
+    var lastPointIndex = g_routeArray.length - 1;
     for(i = 0 ; i < NUM_COMPETITORS ; i++ ){
         var t = time;
         var actualPos = getActualPosition(i, t);        
@@ -318,7 +320,7 @@ function getCompetitorsOrder(time){
         actualPositions.push(actualPosPoint);
         var nearestPointObj = findNearestRoutePointObj(actualPosPoint,g_routeArray);
         distancesArr.push(nearestPointObj.npObj.distFromStart);
-        npArr.push(nearestPointObj.i);
+        npArr.push(nearestPointObj.id); 
     }    
     var compRanks = sortAndRankArray(distancesArr);
     do{
@@ -332,13 +334,13 @@ function getCompetitorsOrder(time){
                     var pointI;
                     var pointJ;
                     var nextP = true; //computation based on next point
-                    if(g_routeArray[npArr[i]+1] && g_routeArray[npArr[J]+1]){ //if next point exist, nearest point is not last
+                    if(g_routeArray[npArr[i]+1] && g_routeArray[npArr[j]+1]){ //if next point exist, nearest point is not last
                         pointI = g_routeArray[npArr[i]+1].position;
                         pointJ = g_routeArray[npArr[j]+1].position;   
                     }
                     else{ //nearest point is last point, check previous point
                         nextP = false;
-                        if(g_routeArray[npArr[i]-1] && g_routeArray[npArr[i]-1]){
+                        if(g_routeArray[npArr[i]-1] && g_routeArray[npArr[j]-1]){
                             pointI = g_routeArray[npArr[i]-1].position;
                             pointJ = g_routeArray[npArr[j]-1].position; 
                         }
@@ -352,24 +354,35 @@ function getCompetitorsOrder(time){
                     
                     if(nextP){ //computation based on next point from nearest point 
                         if(distI < distJ){ 
-                            compRanks[i]++;
+                            compRanks[j]++;
                         }
                         else{
-                            compRanks[j]++;
+                            compRanks[i]++;
                         }
                     }
                     else{ //computation based on previous point from nearest point
                         if(distI < distJ){ //comp. i is further from prev. point rank++
-                            compRanks[j]++;
+                            compRanks[i]++;
                         }
                         else{
-                            compRanks[i]++;
+                            compRanks[j]++;
                         }
                     }
                 }
             }
         }
-    }while(changed);
+    }while(changed);/*
+    g_final_position[0] = undefined;
+    for(var i = 0 ; i < npArr.length ; i++){
+        if(npArr[i] == lastPointIndex && !g_final_position.includes({compId : i})){
+            var compObj = {
+                compId: i,
+                timestamp: time
+            }
+            g_final_position.push(compObj);
+
+        } 
+    }*/
     var positionArr = createPositionArray(compRanks);
     return positionArr; //index of array is position (0 is undefined),value = competitor id
 }

@@ -1,8 +1,8 @@
 var ROUTE = './trajectories/route.txt';
 var START_ICON = './images/icons/start.png';
 var FINISH_ICON = './images/icons/finish.png';
-var START_FINISH_ICON_WIDTH = 50;
-var START_FINISH_ICON_HEIGHT = 20;
+var START_FINISH_ICON_WIDTH = 80;
+var START_FINISH_ICON_HEIGHT = 40;
 var map;
 var routePoly;
 var g_routeArray = [];
