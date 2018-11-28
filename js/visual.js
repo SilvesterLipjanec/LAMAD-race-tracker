@@ -82,12 +82,10 @@ function changeSimulationIndicator(state){
 
 function rotate180deg(element){
     var rot = $(element).css('transform');
-    //console.log("before: "+rot);
     if (rot == "matrix(-1, 1.22465e-16, -1.22465e-16, -1, 0, 0)") {
         $(element).css({'transform' : 'rotate(0deg)'});
     } else {
         $(element).css({'transform' : 'rotate(180deg)'});
     }
     rot = $(element).css('transform');
-    //console.log("after: "+rot);
 }

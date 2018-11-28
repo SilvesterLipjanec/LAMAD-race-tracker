@@ -1,3 +1,0 @@
-Is it good way of finding order of competitors by finding nearest 
-point to actual position of competitor and compare distances 
-of these trajectory points ? 
